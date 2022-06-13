@@ -1732,6 +1732,35 @@ class Node:
         return result
 
 
+    # mdahlman
+    # 2022-06-09
+    def build_expression(self):
+        # We should always have neither left nor right
+        # or else both left and right.
+        if self.left is None and self.right is None:
+            return str(self.value)
+        else:
+            return f"({self.left.build_expression()} {str(self.value)} {self.right.build_expression()})"
+
+
+    def eval_expression(self):
+        # base case: node value is a number
+        if isinstance(self.value,int):
+            return self.value
+        # value must be an operator
+        else:
+            val = 0
+            if self.value == '+':
+                val = self.left.eval_expression() + self.right.eval_expression()
+            elif self.value == '-':
+                val = self.left.eval_expression() - self.right.eval_expression()
+            elif self.value == '*':
+                val = self.left.eval_expression() * self.right.eval_expression()
+            elif self.value == '/':
+                val = self.left.eval_expression() / self.right.eval_expression()
+            return val
+
+
 def _is_balanced(root: Optional[Node]) -> int:
     """Return the tree height + 1 if balanced, -1 otherwise.
 
